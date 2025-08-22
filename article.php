@@ -111,6 +111,7 @@
             </ul>
         </section>
         <div class="content__push"></div>
+        <!-- 标签云 -->
         <?php elseif ($this->request->getPathInfo() == '/tags') :?>
         <section class="content__item content__item--tags">
             <?php $this->widget('Widget_Metas_Tag_Cloud', 'sort=mid&ignoreZeroCount=1&desc=0')->to($tags); ?>
@@ -124,6 +125,7 @@
 <?php endif; ?>
         </section>
         <div class="content__push"></div>
+        <!-- 全部分类 -->
         <?php elseif ($this->request->getPathInfo() == '/categories') :?>
             <section class="content__item">
                 <ul class="content__list">
@@ -135,27 +137,35 @@
             </section>  
             <div class="content__push"></div>
         <?php else :?>
-        <?php $this->need('sticky.php'); ?>
-        <?php while ($this->next()): ?>
-        <section class="content__item">
-            <article class="article">
-                <div class="article-header"> 
-                    <a class="article-header__link" title="<?php $this->title() ?>" href="<?php $this->permalink() ?>"><?php $this->title() ?><?php if (isset($this->isSticky) && $this->isSticky): ?><?php echo $this->stickyHtml; ?><?php endif; ?></a> 
-                </div>
-                <div class="article__content article__content--index"><?php $this->excerpt(100, '...'); ?></div>
-                <div class="article__excerpt"> 
-                    <a class="article__excerpt-link" href="<?php $this->permalink() ?>#more" class="more-link" title="read more">阅读全文</a> </div>
-            </article>
-        </section> 
-        <?php endwhile; ?>
-        <div class="pagination">
-            <span class="pagination__wrapper">
+<!-- 文章列表 -->   
+<?php $this->need('sticky.php'); ?>
+<!-- 普通文章列表 -->
+<?php while ($this->next()): ?>
+<section class="content__item">
+    <article class="article">
+        <div class="article-header"> 
+            <a class="article-header__link" title="<?php $this->title() ?>" href="<?php $this->permalink() ?>">
+                <?php if ($this->fields->postSticky == 'sticky') {
+                        echo '<span>📌</span>';
+                    } ?><?php $this->title() ?>
+            </a> 
+        </div>
+        <div class="article__content article__content--index"><?php $this->excerpt(100, '...'); ?></div>
+        <div class="article__excerpt"> 
+            <a class="article__excerpt-link" href="<?php $this->permalink() ?>#more" class="more-link" title="read more">阅读全文</a>
+        </div>
+    </article>
+</section> 
+<?php endwhile; ?>
+
+<!-- 分页 -->
+<div class="pagination">
+    <span class="pagination__wrapper">
         <?php $this->pageLink('上一页','prev'); ?>
         <?php $this->pageLink('下一页','next'); ?>
-                      
-            </span>
-        </div>
-    <div class="content__push"></div>
+    </span>
+</div>
+<div class="content__push"></div>
     <?php endif; ?>
 <!-- 其他页 -->
 <?php else: ?>

@@ -3,14 +3,53 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
 function themeConfig($form)
 {
-    $sticky = new Typecho_Widget_Helper_Form_Element_Text('sticky', NULL, NULL, _t('置顶文章'), _t('填入文章的cid,多个cid以`|`符号隔开'));
-    $form->addInput($sticky);
+    $iconUrl = new Typecho_Widget_Helper_Form_Element_Text('iconUrl', NULL, NULL, _t('Favicon图标'), _t('填写Favicon图标的URL'));
+    $form->addInput($iconUrl);
+    $addhead = new Typecho_Widget_Helper_Form_Element_Textarea('addhead', NULL, NULL, _t('添加到 &lt;head&gt; 的内容'), _t('可以添加一些自定义的CSS样式或JS脚本'));
+    $form->addInput($addhead);
+    $addfooter = new Typecho_Widget_Helper_Form_Element_Textarea('addfooter', NULL, NULL, _t('添加到 &lt;body&gt; 底部的内容'), _t('可以添加一些自定义的JS脚本'));
+    $form->addInput($addfooter);
     $ICP = new Typecho_Widget_Helper_Form_Element_Text('ICP', NULL, NULL, _t('ICP 备案号'), _t('展示网站备案ICP号'));
     $form->addInput($ICP);
-    $cnavatar = new Typecho_Widget_Helper_Form_Element_Text('cnavatar', NULL, NULL, _t('Gravatar镜像'), _t('默认使用https://cravatar.cn/avatar/'));
-    $form->addInput($cnavatar);
 }
-    
+
+// 自定义字段
+function themeFields($layout) {
+    $postSticky = new Typecho_Widget_Helper_Form_Element_Radio('postSticky',
+    array('normal'=> _t('否'), 'sticky'=> _t('是')),
+    'normal', _t('是否置顶文章'));
+    $layout->addItem($postSticky);
+}
+
+/**
+ * 获取所有置顶文章的CID
+ * @return array 置顶文章的CID数组
+ */
+function getStickyPostsCids() {
+    $db = Typecho_Db::get();
+
+    // 构造查询语句，联接 typecho_fields 表
+    $query = $db->select('table.contents.cid')
+        ->from('table.contents')
+        ->join('table.fields', 'table.fields.cid = table.contents.cid')
+        ->where('table.contents.type = ?', 'post')
+        ->where('table.contents.status = ?', 'publish')
+        ->where('table.fields.name = ?', 'postSticky')
+        ->where('table.fields.str_value = ?', 'sticky')
+        ->order('table.contents.created', Typecho_Db::SORT_DESC);
+
+    // 执行查询
+    $cids = $db->fetchAll($query);
+
+    // 提取 cid 到数组
+    $cidArray = [];
+    foreach ($cids as $cid) {
+        $cidArray[] = $cid['cid'];
+    }
+
+    return $cidArray;
+}
+
 /*
 * 文章浏览数统计
 */

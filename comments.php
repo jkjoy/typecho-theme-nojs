@@ -1,8 +1,6 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
-
 <section class="content__item">
     <?php $this->comments()->to($comments); ?>
-    
     <?php if($this->allow('comment')): ?>
     <div id="<?php $this->respondId(); ?>" class="comment-form-wrapper" id="comment-form-wrapper">
         <form method="post" action="<?php $this->commentUrl() ?>" id="comment-form" class="comment-form" role="form">
@@ -31,14 +29,13 @@
             </span>
             <p class="form-submit">
                 <input type="submit" name="submit" id="comment-submit-button" class="comment-form__input comment-form__input--button" 
-                    value="提交评论（Ctrl+Enter）" />
+                    value="提交评论" />
                 <?php $comments->cancelReply(); ?>
             </p>
         </form>
     </div>
     <?php else: ?>
     <?php endif; ?>
-
     <?php if ($comments->have()): ?>
     <div class="comment">
         <?php $comments->listComments(array(
@@ -49,8 +46,7 @@
             'beforeDate'    =>  '',
             'afterDate'     =>  '',
             'dateFormat'    =>  'Y/m/d'
-        )); ?>
-        
+        )); ?>    
         <?php $comments->pageNav(
             '&laquo;', '&raquo;',
             1, '...',
@@ -86,11 +82,7 @@
         <div class="comment__box" id="<?php $comments->theId(); ?>">
             <div class="comment__header">
                 <span class="comment__author-name"><?php $comments->author(); ?></span>
-                <span class="comment__submit-date"><?php $comments->date('Y/m/d'); ?></span>
-                <span class="comment__reply-button">
-                    <?php $comments->reply('回复'); ?>
-                </span>
-               
+                <span class="comment__submit-date"><?php $comments->date('Y/m/d H:i'); ?></span>
             </div>
             <div class="comment__content">
 <?php
@@ -114,7 +106,6 @@ if ($comments->parent) {
 }
 // 获取评论内容
 $content = $comments->content;
-
 // 插入回复链接
 if (!empty($reply_link)) {
     // 处理HTML内容
@@ -124,10 +115,12 @@ if (!empty($reply_link)) {
         $content = $reply_link . ' ' . $content;
     }
 }
-
 // 输出最终内容
 echo $content;
 ?>
+                <p class="comment__reply-button">
+                    <?php $comments->reply('回复'); ?>
+                </p>
             </div>
         </div>
         <?php if ($comments->children) { ?>
@@ -137,17 +130,3 @@ echo $content;
         <?php } ?>
     </li>
 <?php } ?>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Ctrl+Enter 提交功能
-    var textarea = document.getElementById('textarea');
-    if (textarea) {
-        textarea.addEventListener('keydown', function(e) {
-            if (e.ctrlKey && e.keyCode === 13) {
-                document.getElementById('comment-form').submit();
-            }
-        });
-    }
-});
-</script>
