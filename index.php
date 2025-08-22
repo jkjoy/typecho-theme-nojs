@@ -5,18 +5,39 @@
  * 仅支持 Typecho 1.2.1 及以下版本，不支持 1.3.0 beta
  * @package NoJS
  * @author Typecho Team
- * @version 1.0.1
+ * @version 1.0.2
  * @link https://typecho.team
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 ?>
 <!DOCTYPE html>
+<?php if ($this->request->getPathInfo() == '/links' || $this->request->getPathInfo() == '/archives' || $this->request->getPathInfo() == '/tags' || $this->request->getPathInfo() == '/categories'){
+    $this->response->setStatus(200);
+}?>
 <html lang="zh-Hans">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php $this->archiveTitle('', '', ' | '); ?><?php $this->options->title(); ?><?php if ($this->is('index')): ?> | <?php $this->options->description() ?><?php endif; ?></title>
+    <title><?php
+            if ($this->request->getPathInfo() == '/links') {
+                echo '友情链接 - ';
+            }elseif ($this->request->getPathInfo() == '/archives') {
+                echo '文章归档 - ';
+            }elseif ($this->request->getPathInfo() == '/tags') {
+                echo '全部标签 - ';
+            }elseif ($this->request->getPathInfo() == '/categories') {
+                echo '全部分类 - ';
+            }else {
+                $this->archiveTitle(array(
+                    'category' => '分类 %s 下的文章',
+                    'search' => '包含关键字 %s 的文章',
+                    'tag' => '标签 %s 下的文章',
+                    'author' => '%s 发布的文章'
+                ), '', ' - ');
+            }
+            $this->options->title();
+        ?></title>
     <link rel="stylesheet" href="<?php $this->options->themeUrl('style.css'); ?>">
     <?php if ($this->options->iconUrl) : ?>
         <link rel="icon" href="<?php $this->options->iconUrl(); ?>" type="image/x-icon"/>
@@ -67,7 +88,8 @@ if (!defined('__TYPECHO_ROOT_DIR__')) exit;
         <?php echo date('Y'); ?>&nbsp;<?php $this->options->title(); ?> 
         &nbsp;
         <?php _e('Powered by <a class="footer__link" href="https://typecho.org" target="_blank">Typecho</a>'); ?>
-        & <a class="footer__link" href="https://github.com/jkjoy/typecho-theme-nojs" title="nojs 1.0.1" target="_blank">Nojs</a> 
+        & <a class="footer__link" href="https://github.com/jkjoy/typecho-theme-nojs" 
+        title="nojs 1.0.2" target="_blank">Nojs</a> 
         <span>&nbsp;本站共计 </span>
         <span><?php echo $stats['totalViews']; ?></span> 人浏览 
         <span>运营时间至今有</span>
