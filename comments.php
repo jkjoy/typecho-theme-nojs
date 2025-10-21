@@ -60,7 +60,6 @@
     </div>
     <?php endif; ?>
 </section>
-
 <?php function threadedComments($comments, $options) {
     $commentClass = '';
     if ($comments->authorId) {

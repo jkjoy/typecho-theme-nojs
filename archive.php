@@ -1,19 +1,7 @@
 <?php
-/**
- * NoJS theme
- * 简约却不简单的单栏主题
- * 已适配 Typecho 1.3.0
- * @package NoJS
- * @author Typecho Team
- * @version 1.1
- * @link https://typecho.team
- */
-
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');
 ?>
-<!-- 置顶文章 -->
-<?php $this->need('sticky.php'); ?>
 <!-- 普通文章列表 -->
 <?php while ($this->next()): ?>
 <section class="content__item">
