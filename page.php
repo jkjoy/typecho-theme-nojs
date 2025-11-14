@@ -10,7 +10,7 @@ $this->need('header.php');
         <blockquote></blockquote>
         <span> 👁️‍🗨️ <?php get_post_view($this); ?></span>
         <div class="article__content">
-            <?php $this->content(); ?>
+            <?php $this->content = processArticleContent($this->content);$this->content();?>
         </div>
         <!-- 独立页面不显示上一篇/下一篇，只留编辑按钮 -->
         <div class="article__footer-link">

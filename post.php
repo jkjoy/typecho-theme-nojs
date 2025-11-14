@@ -9,7 +9,7 @@ $this->need('header.php');
         </div>
         <span> 👁️‍🗨️ <?php get_post_view($this); ?></span>
         <div class="article__content">
-            <?php $this->content(); ?>
+            <?php $this->content = processArticleContent($this->content);$this->content();?>
         </div>
         <span class="article__category">
             <?php if ($this->categories): ?>
