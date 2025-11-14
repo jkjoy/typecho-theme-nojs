@@ -5,7 +5,7 @@
  * 已适配 Typecho 1.3.0
  * @package NoJS
  * @author Typecho Team
- * @version 1.1
+ * @version 1.2
  * @link https://typecho.team
  */
 

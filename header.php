@@ -17,12 +17,18 @@
 <?php if ($this->options->iconUrl) : ?>
 <link rel="icon" href="<?php $this->options->iconUrl(); ?>" type="image/x-icon"/>
 <?php endif; ?>
+<?php
+    $colorConfig = getThemeColorConfig();
+    if ($colorConfig['theme'] == 'custom') {
+        echo '<style>:root{--primary-color:' . $colorConfig['customPrimary'] . ';--primary-hover:' . $colorConfig['customHover'] . ';}</style>';
+    }
+?>
 <?php if ($this->options->addhead) : ?>
 <?php $this->options->addhead(); ?>
 <?php endif; ?>
 <?php $this->header(); ?>
 </head>
-<body class="body">
+<body class="body <?php $colorConfig = getThemeColorConfig(); if ($colorConfig['theme'] != 'custom') echo 'theme-' . $colorConfig['theme']; ?>">
 <div class="content">
 <header class="header">
 <div class="header__wrapper">
