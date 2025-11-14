@@ -13,7 +13,7 @@ $this->need('header.php');
 <section class="content__item">
     <ul class="article-header-list">
         <?php
-            Puock_Plugin::output('
+            Links_Plugin::output('
             <li class="article-header-list-item">
             <a href="{url}" target="_blank">
                 <span class="links_author">{name}</span>
