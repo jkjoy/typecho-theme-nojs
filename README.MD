@@ -4,7 +4,7 @@
 
 ## 预览
 
-![预览](/screenshot.png)
+![预览](/screenshot.webp)
 
 ## 说明
 
